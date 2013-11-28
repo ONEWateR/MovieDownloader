@@ -17,6 +17,8 @@ namespace SchoolPlayer
     {
         WebBrowser wb = new WebBrowser();
         string set = "";
+        bool isDownloading =  true;
+        bool isBeginDownload = false; 
 
         public Form1()
         {
@@ -155,8 +157,8 @@ namespace SchoolPlayer
 
                     const long ChunkSize = 102400; //100K 每次读取文件，只读取100K，这样可以缓解服务器的压力
                     byte[] buffer = new byte[ChunkSize];
-
-                    while (dataLength - dataLengthHaveRead > 0)
+                    isBeginDownload = true; 
+                    while (dataLength - dataLengthHaveRead > 0 && isDownloading)
                     {
                         Application.DoEvents();
                         int lengthRead = stream.Read(buffer, 0, Convert.ToInt32(ChunkSize));
@@ -169,7 +171,8 @@ namespace SchoolPlayer
                         f.Flush();
                     }
                     f.Close();
-                    MessageBox.Show("下载完成~！ > <");
+                    if(isDownloading != false ) MessageBox.Show("下载完成~！ > <");
+                    isBeginDownload = false;
                     wb = new WebBrowser();
                     progressBar_download.Value = 0;
                 }
@@ -179,6 +182,7 @@ namespace SchoolPlayer
 
         private void button_download_Click(object sender, EventArgs e)
         {
+            isDownloading = true;
             DownloadPage(textBox_url.Text);
         }
 
@@ -191,7 +195,18 @@ namespace SchoolPlayer
             }
         }
 
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (isBeginDownload)
+            {
+                isDownloading = false;
+                MessageBox.Show("已经终止下载了！ > <");
+            }
+            else
+            {
+                MessageBox.Show("下载还没开始呢！ > <");
+            }
+        }
 
 
 
