@@ -183,7 +183,10 @@ namespace SchoolPlayer
         private void button_download_Click(object sender, EventArgs e)
         {
             isDownloading = true;
-            DownloadPage(textBox_url.Text);
+            if (!textBox_url.Text.StartsWith("M:"))
+                DownloadPage(textBox_url.Text);
+            else
+                DownloadMovie(textBox_url.Text.Substring(2));
         }
 
         private void button_folder_Click(object sender, EventArgs e)
@@ -206,6 +209,18 @@ namespace SchoolPlayer
             {
                 MessageBox.Show("下载还没开始呢！ > <");
             }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("\t  Powered By 计协软件部 \n\n ======== Change Log ======== \n\n ver 1.0.0 The Base \n ver 1.1.0 Add The ProcessBar \n ver 1.2.0 Add The Stop Download Button","About The Downloader");
+            About about = new About();
+            about.ShowDialog();
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("M:http://172.16.4.200/vod2/动漫/长篇/[连载]火影忍者/[jumpcn][naruto][483][GB][848x480].rmvb \n 可下载文件");
         }
 
 
